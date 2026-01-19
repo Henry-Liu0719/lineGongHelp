@@ -48,7 +48,6 @@
             position: relative;
             width: 100%;
             overflow: hidden;
-            touch-action: pan-x;
         }
 
         .slider-wrapper {
@@ -182,12 +181,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
             margin-top: 30px;
             padding: 0 20px;
         }
 
         .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
             background: white;
             border: none;
             width: 50px;
@@ -204,13 +206,21 @@
             touch-action: manipulation;
         }
 
+        .nav-btn#prevBtn {
+            left: 20px;
+        }
+
+        .nav-btn#nextBtn {
+            right: 20px;
+        }
+
         .nav-btn:hover {
-            transform: scale(1.1);
+            transform: translateY(-50%) scale(1.1);
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
 
         .nav-btn:active {
-            transform: scale(0.95);
+            transform: translateY(-50%) scale(0.95);
         }
 
         .nav-btn:disabled {
@@ -288,6 +298,14 @@
                 font-size: 20px;
             }
 
+            .nav-btn#prevBtn {
+                left: 10px;
+            }
+
+            .nav-btn#nextBtn {
+                right: 10px;
+            }
+
             .swipe-hint {
                 font-size: 12px;
                 margin-top: 10px;
@@ -340,19 +358,14 @@
                     <div class="slide-number">1 / 6</div>
                     <div class="slide-content">
                         <div class="slide-image">
-                            <img src="Bookkeeping/images/01_welcome.jpg" alt="歡迎訊息與初始設定">
+                            <img src="https://github.com/Henry-Liu0719/lineGongHelp/blob/main/Bookkeeping/images/01_welcome.jpg?raw=true" alt="歡迎訊息與初始設定">
                         </div>
                         <div class="slide-text">
-                            <h2>🎉 歡迎加入記帳服務</h2>
-                            <p>當您加入「小貢幫記帳」為好友後，系統會自動為您建立專屬的記帳本。</p>
-                            <p style="margin-top: 15px;"><strong>根據指引，完成新手任務體驗使用方法</strong></p>
-                            <div class="line-info">
-                                <p><strong>LINE 官方 ID：</strong></p>
-                                <div class="line-id">@862onhmi</div>
-                                <p style="margin-top: 10px;"><strong>加入連結：</strong></p>
-                                <a href="https://lin.ee/AznV1L7" target="_blank">https://lin.ee/AznV1L7</a>
-                            </div>
                         </div>
+                        
+                        <h2>🎉 歡迎加入記帳服務</h2>
+                        <p>當您加入「小貢幫記帳」為好友後，系統會自動為您建立專屬的記帳本。</p>
+                        <p style="margin-top: 15px;"><strong>根據指引，完成新手任務體驗使用方法</strong></p>
                     </div>
                 </div>
 
@@ -361,7 +374,7 @@
                     <div class="slide-number">2 / 6</div>
                     <div class="slide-content">
                         <div class="slide-image">
-                            <img src="Bookkeeping/images/02_set_budget.jpg" alt="記帳操作">
+                            <img src="https://github.com/Henry-Liu0719/lineGongHelp/blob/main/Bookkeeping/images/02_set_budget.jpg?raw=true" alt="記帳操作">
                         </div>
                         <div class="slide-text">
                             <h2>📝 設定預算</h2>
@@ -375,7 +388,7 @@
                     <div class="slide-number">3 / 6</div>
                     <div class="slide-content">
                         <div class="slide-image">
-                            <img src="Bookkeeping/images/03_image_bookkeeping.jpg" alt="記帳記錄">
+                            <img src="https://github.com/Henry-Liu0719/lineGongHelp/blob/main/Bookkeeping/images/03_image_bookkeeping.jpg?raw=true" alt="記帳記錄">
                         </div>
                         <div class="slide-text">
                             <h2>📊 使用圖片懶人記帳</h2>
@@ -389,13 +402,14 @@
                     <div class="slide-number">4 / 6</div>
                     <div class="slide-content">
                         <div class="slide-image">
-                            <img src="Bookkeeping/images/04_text_bookkeeping.jpg" alt="預算管理">
+                            <img src="https://github.com/Henry-Liu0719/lineGongHelp/blob/main/Bookkeeping/images/04_text_bookkeeping.jpg?raw=true" alt="預算管理">
                         </div>
                         <div class="slide-text">
                             <div class="feature-section">
                                 <h2>💳 快速文字記帳</h2>
                                 <p style="margin-top: 10px;">只要輸入名稱與金額就能快速記帳</p>
                                 <p>系統會自動分類並回傳記帳結果</p>
+                                <p>支援時間辨識，可輸入"前天"、"上禮拜三"、"2026/12/31"等時間</p>
                             </div>
                             <div class="feature-section">
                                 <h2>🗑️ 快速簡易刪除紀錄</h2>
@@ -411,7 +425,7 @@
                     <div class="slide-number">5 / 6</div>
                     <div class="slide-content">
                         <div class="slide-image">
-                            <img src="Bookkeeping/images/05_google_spreadsheet.png" alt="記帳試算表">
+                            <img src="https://github.com/Henry-Liu0719/lineGongHelp/blob/main/Bookkeeping/images/05_google_spreadsheet.png?raw=true" alt="記帳試算表">
                         </div>
                         <div class="slide-text">
                             <h2>📊 Google 試算表整合</h2>
@@ -426,18 +440,19 @@
                     <div class="slide-number">6 / 6</div>
                     <div class="slide-content">
                         <div class="slide-image">
-                            <img src="Bookkeeping/images/06_complete_experience.jpg" alt="功能總結">
+                            <img src="https://github.com/Henry-Liu0719/lineGongHelp/blob/main/Bookkeeping/images/06_complete_experience.jpg?raw=true" alt="功能總結">
                         </div>
                         <div class="slide-text">
-                            <h2>✨ 完整記帳體驗</h2>
-                            <p style="margin-top: 10px;">「小貢幫記帳」追求最快速直覺的記帳體驗。</p>
-                            <p>用最少的時間紀錄每一筆支出</p>
-                            <div class="line-info" style="margin-top: 20px;">
-                                <p><strong>LINE 官方 ID：</strong></p>
-                                <div class="line-id">@862onhmi</div>
-                                <p style="margin-top: 10px;"><strong>加入連結：</strong></p>
-                                <a href="https://lin.ee/AznV1L7" target="_blank">https://lin.ee/AznV1L7</a>
-                            </div>
+                        </div>
+                        
+                        <h2>✨ 完整記帳體驗</h2>
+                        <p style="margin-top: 10px;">「小貢幫記帳」追求最快速直覺的記帳體驗。</p>
+                        <p>用最少的時間紀錄每一筆支出</p>
+                        <div class="line-info" style="margin-top: 20px;">
+                            <p><strong>LINE 官方 ID：</strong></p>
+                            <div class="line-id">@862onhmi</div>
+                            <p style="margin-top: 10px;"><strong>加入連結：</strong></p>
+                            <a href="https://lin.ee/AznV1L7" target="_blank">https://lin.ee/AznV1L7</a>
                         </div>
                     </div>
                 </div>
@@ -445,13 +460,14 @@
         </div>
 
         <div class="navigation">
-            <button class="nav-btn" id="prevBtn">‹</button>
             <div class="dots" id="dots"></div>
-            <button class="nav-btn" id="nextBtn">›</button>
         </div>
+        
+        <button class="nav-btn" id="prevBtn">‹</button>
+        <button class="nav-btn" id="nextBtn">›</button>
 
         <div class="swipe-hint">
-            👈 左右滑動或點擊按鈕切換 👉
+            點擊按鈕切換
         </div>
     </div>
 
@@ -464,7 +480,6 @@
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const dotsContainer = document.getElementById('dots');
-            const sliderContainer = document.getElementById('sliderContainer');
 
             // 建立 dots
             for (let i = 0; i < totalSlides; i++) {
@@ -493,6 +508,26 @@
                         dot.classList.remove('active');
                     }
                 });
+
+                // 滾動到當前投影片的圖片頂部
+                const currentSlideElement = slides[currentSlide];
+                if (currentSlideElement) {
+                    const slideImage = currentSlideElement.querySelector('.slide-image');
+                    if (slideImage) {
+                        const imageTop = slideImage.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({
+                            top: imageTop - 20,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // 如果找不到圖片，則滾動到投影片頂部
+                        const slideTop = currentSlideElement.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({
+                            top: slideTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
             }
 
             function goToSlide(index) {
@@ -519,49 +554,6 @@
             // 按鈕事件
             nextBtn.addEventListener('click', nextSlide);
             prevBtn.addEventListener('click', prevSlide);
-
-            // 觸控滑動支援
-            let startX = 0;
-            let currentX = 0;
-            let isDragging = false;
-            let startTime = 0;
-
-            sliderContainer.addEventListener('touchstart', function(e) {
-                startX = e.touches[0].clientX;
-                startTime = Date.now();
-                isDragging = true;
-                sliderWrapper.style.transition = 'none';
-            }, { passive: true });
-
-            sliderContainer.addEventListener('touchmove', function(e) {
-                if (!isDragging) return;
-                currentX = e.touches[0].clientX;
-                const diffX = currentX - startX;
-                const currentTranslate = -currentSlide * 100;
-                const newTranslate = currentTranslate + (diffX / sliderContainer.offsetWidth) * 100;
-                sliderWrapper.style.transform = 'translateX(' + newTranslate + '%)';
-            }, { passive: true });
-
-            sliderContainer.addEventListener('touchend', function(e) {
-                if (!isDragging) return;
-                isDragging = false;
-                sliderWrapper.style.transition = 'transform 0.3s ease-in-out';
-                
-                const diffX = startX - currentX;
-                const diffTime = Date.now() - startTime;
-                const threshold = 50;
-                const velocity = Math.abs(diffX) / diffTime;
-
-                if (Math.abs(diffX) > threshold || velocity > 0.3) {
-                    if (diffX > 0) {
-                        nextSlide();
-                    } else {
-                        prevSlide();
-                    }
-                } else {
-                    updateSlider();
-                }
-            }, { passive: true });
 
             // 鍵盤支援
             document.addEventListener('keydown', function(e) {
