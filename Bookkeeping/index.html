@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>小貢幫記帳 - LINE 機器人功能介紹</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "微軟正黑體", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+            will-change: transform;
+        }
+
+        .slide {
+            min-width: 100%;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .slide-content {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .slide-image {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .slide-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 15px;
+        }
+
+        .slide-text {
+            color: #333;
+        }
+
+        .slide-text h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #667eea;
+            border-left: 4px solid #667eea;
+            padding-left: 10px;
+        }
+
+        .slide-text p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .slide-text ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .slide-text li {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .slide-text a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            word-break: break-all;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .slide-text a:hover {
+            text-decoration: underline;
+        }
+
+        .line-info {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .line-info p {
+            margin-bottom: 8px;
+        }
+
+        .line-id {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 5px 0;
+            font-weight: bold;
+            color: #667eea;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .line-id:hover {
+            background: #e8ecff;
+            transform: scale(1.05);
+        }
+
+        .line-id:active {
+            transform: scale(0.95);
+        }
+
+        .toast {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .feature-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .feature-section:first-of-type {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            color: #667eea;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        .nav-btn#prevBtn {
+            left: 20px;
+        }
+
+        .nav-btn#nextBtn {
+            right: 20px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+            touch-action: manipulation;
+        }
+
+        .dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .swipe-hint {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .slide {
+                padding: 0 15px;
+            }
+
+            .slide-content {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .slide-text h2 {
+                font-size: 18px;
+            }
+
+            .slide-text p,
+            .slide-text li {
+                font-size: 14px;
+            }
+
+            .nav-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .nav-btn#prevBtn {
+                left: 10px;
+            }
+
+            .nav-btn#nextBtn {
+                right: 10px;
+            }
+
+            .swipe-hint {
+                font-size: 12px;
+                margin-top: 10px;
+            }
+
+            .slide-number {
+                top: 5px;
+                right: 20px;
+                font-size: 12px;
+                padding: 4px 12px;
+            }
+
+            .line-info {
+                padding: 12px;
+            }
+
+            .line-id {
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+
+            .feature-section {
+                margin-top: 15px;
+                padding-top: 15px;
+            }
+
+            .back-link {
+                top: 10px;
+                left: 10px;
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+
+            .toast {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+
+            .slide-content {
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← 返回首頁</a>
+        <div class="header">
+            <h1>💰 小貢幫記帳</h1>
+            <p>LINE 機器人功能介紹</p>
+        </div>
+
+        <div class="slider-container" id="sliderContainer">
+            <div class="slider-wrapper" id="sliderWrapper">
+                <!-- Slide 1 -->
+                <div class="slide">
+                    <div class="slide-number">1 / 6</div>
+                    <div class="slide-content">
+                        <div class="slide-image">
+                            <img src="images/01_welcome.jpg" alt="歡迎訊息與初始設定">
+                        </div>
+                        <div class="slide-text">
+                            <h2>🎉 歡迎加入記帳服務</h2>
+                            <p>當您加入「小貢幫記帳」為好友後，系統會自動為您建立專屬的記帳本。</p>
+                            <p style="margin-top: 15px;"><strong>根據指引，完成新手任務體驗使用方法</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="slide">
+                    <div class="slide-number">2 / 6</div>
+                    <div class="slide-content">
+                        <div class="slide-image">
+                            <img src="images/02_set_budget.jpg" alt="記帳操作">
+                        </div>
+                        <div class="slide-text">
+                            <h2>📝 設定預算</h2>
+                            <p style="margin-top: 10px;">根據您的收支規劃，設定各項預算。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="slide">
+                    <div class="slide-number">3 / 6</div>
+                    <div class="slide-content">
+                        <div class="slide-image">
+                            <img src="images/03_image_bookkeeping.jpg" alt="記帳記錄">
+                        </div>
+                        <div class="slide-text">
+                            <h2>📊 使用圖片懶人記帳</h2>
+                            <p style="margin-top: 10px;">只要拍照就能快速記帳，無需手動輸入。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="slide">
+                    <div class="slide-number">4 / 6</div>
+                    <div class="slide-content">
+                        <div class="slide-image">
+                            <img src="images/04_text_bookkeeping.jpg" alt="預算管理">
+                        </div>
+                        <div class="slide-text">
+                            <div class="feature-section">
+                                <h2>💳 快速文字記帳</h2>
+                                <p style="margin-top: 10px;">只要輸入名稱與金額就能快速記帳</p>
+                                <p>系統會自動分類並回傳記帳結果</p>
+                                <p>支援時間辨識，可輸入"前天"、"上禮拜三"、"2026/12/31"等時間</p>
+                            </div>
+                            <div class="feature-section">
+                                <h2>🗑️ 快速簡易刪除紀錄</h2>
+                                <p style="margin-top: 10px;">複製序號以後貼上，加上關鍵字送出</p>
+                                <p>系統會自動刪除紀錄</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5 -->
+                <div class="slide">
+                    <div class="slide-number">5 / 6</div>
+                    <div class="slide-content">
+                        <div class="slide-image">
+                            <img src="images/05_google_spreadsheet.png" alt="記帳試算表">
+                        </div>
+                        <div class="slide-text">
+                            <h2>📊 Google 試算表整合</h2>
+                            <p style="margin-top: 10px;">所有記帳資料紀錄在個人專屬的 Google 試算表，自由編輯</p>
+                            <p style="margin-top: 15px;">您可以隨時在 Google 試算表中查看、編輯和管理所有記帳資料，完全掌控您的財務記錄。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 6 -->
+                <div class="slide">
+                    <div class="slide-number">6 / 6</div>
+                    <div class="slide-content">
+                        <div class="slide-image">
+                            <img src="images/06_complete_experience.jpg" alt="功能總結">
+                        </div>
+                        <div class="slide-text">
+                            <h2>✨ 完整記帳體驗</h2>
+                            <p style="margin-top: 10px;">「小貢幫記帳」追求最快速直覺的記帳體驗。</p>
+                            <p>用最少的時間紀錄每一筆支出</p>
+                            <div class="line-info" style="margin-top: 20px;">
+                                <p><strong>LINE 官方 ID：</strong></p>
+                                <div class="line-id">@862onhmi</div>
+                                <p style="margin-top: 10px;"><strong>加入連結：</strong></p>
+                                <a href="https://lin.ee/AznV1L7" target="_blank">https://lin.ee/AznV1L7</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <div class="dots" id="dots"></div>
+        </div>
+        
+        <button class="nav-btn" id="prevBtn">‹</button>
+        <button class="nav-btn" id="nextBtn">›</button>
+
+        <div class="swipe-hint">
+            點擊按鈕切換
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            const sliderWrapper = document.getElementById('sliderWrapper');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const dotsContainer = document.getElementById('dots');
+
+            // 建立 dots
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', function() {
+                    goToSlide(i);
+                });
+                dotsContainer.appendChild(dot);
+            }
+
+            const dots = document.querySelectorAll('.dot');
+
+            function updateSlider() {
+                sliderWrapper.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+                
+                // 更新按鈕狀態
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+
+                // 更新 dots
+                dots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+
+                // 滾動到當前投影片的圖片頂部
+                const currentSlideElement = slides[currentSlide];
+                if (currentSlideElement) {
+                    const slideImage = currentSlideElement.querySelector('.slide-image');
+                    if (slideImage) {
+                        const imageTop = slideImage.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({
+                            top: imageTop - 20,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // 如果找不到圖片，則滾動到投影片頂部
+                        const slideTop = currentSlideElement.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({
+                            top: slideTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }
+
+            function goToSlide(index) {
+                if (index >= 0 && index < totalSlides) {
+                    currentSlide = index;
+                    updateSlider();
+                }
+            }
+
+            function nextSlide() {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlider();
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlider();
+                }
+            }
+
+            // 按鈕事件
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // 鍵盤支援
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (e.key === 'ArrowRight') {
+                    nextSlide();
+                }
+            });
+
+            // 初始化
+            updateSlider();
+
+            // 複製 LINE ID 功能
+            const lineIdElement = document.querySelector('.line-id');
+            if (lineIdElement) {
+                // 創建 toast 元素
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = '已複製 @862onhmi';
+                document.body.appendChild(toast);
+
+                // 顯示 toast 的函數
+                function showToast() {
+                    // 獲取 LINE ID 元素的位置
+                    const rect = lineIdElement.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                    
+                    // 計算 toast 位置：在 LINE ID 上方
+                    const top = rect.top + scrollTop - 50; // LINE ID 上方 50px
+                    const left = rect.left + scrollLeft + (rect.width / 2); // LINE ID 水平中心
+                    
+                    // 設置 toast 位置
+                    toast.style.top = top + 'px';
+                    toast.style.left = left + 'px';
+                    
+                    // 顯示 toast
+                    toast.classList.add('show');
+                    setTimeout(function() {
+                        toast.classList.remove('show');
+                    }, 2000);
+                }
+
+                // 複製到剪貼簿的函數
+                function copyToClipboard(text) {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        // 使用現代 Clipboard API
+                        navigator.clipboard.writeText(text).then(function() {
+                            showToast();
+                        }).catch(function(err) {
+                            console.error('複製失敗:', err);
+                            fallbackCopy(text);
+                        });
+                    } else {
+                        // 降級方案：使用傳統方法
+                        fallbackCopy(text);
+                    }
+                }
+
+                // 降級複製方案
+                function fallbackCopy(text) {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    textArea.style.position = 'fixed';
+                    textArea.style.left = '-999999px';
+                    textArea.style.top = '-999999px';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    try {
+                        const successful = document.execCommand('copy');
+                        if (successful) {
+                            showToast();
+                        }
+                    } catch (err) {
+                        console.error('複製失敗:', err);
+                    }
+                    document.body.removeChild(textArea);
+                }
+
+                // 添加點擊事件
+                lineIdElement.addEventListener('click', function() {
+                    copyToClipboard('@862onhmi');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

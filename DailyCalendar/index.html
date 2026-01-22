@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>每日行事曆管家 - LINE 機器人功能介紹</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "微軟正黑體", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .slide {
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 200px);
+        }
+
+        .slide-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .slide-image {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .slide-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 15px;
+        }
+
+        .slide-text {
+            color: #333;
+        }
+
+        .slide-text h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-left: 4px solid #667eea;
+            padding-left: 12px;
+        }
+
+        .slide-text p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .slide-text ul {
+            margin-left: 20px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .slide-text li {
+            font-size: 15px;
+            line-height: 2;
+            margin-bottom: 10px;
+        }
+
+        .feature-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .feature-section:first-of-type {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .highlight-box {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .highlight-box p {
+            margin-bottom: 10px;
+        }
+
+        .highlight-box strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .slide {
+                padding: 0 15px;
+            }
+
+            .slide-content {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+
+            .slide-text h2 {
+                font-size: 18px;
+            }
+
+            .slide-text p,
+            .slide-text li {
+                font-size: 14px;
+            }
+
+            .back-link {
+                top: 10px;
+                left: 10px;
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+
+            .highlight-box {
+                padding: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+
+            .slide-content {
+                max-width: 550px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← 返回首頁</a>
+        <div class="header">
+            <h1>📅 每日行事曆管家</h1>
+            <p>LINE 機器人功能介紹</p>
+        </div>
+
+        <div class="slide">
+            <div class="slide-content">
+                <div class="slide-image">
+                    <img src="images/01_daily_calendar.png" alt="每日行事曆管家功能">
+                </div>
+                <div class="slide-text">
+                    <h2>🌅 早晨提醒系統</h2>
+                    <p>每天早上自動收到 LINE 通知，提醒您今天有哪些行事曆事件，讓一天從清楚的行程開始！</p>
+                    
+                    <div class="feature-section">
+                        <h2>✨ 主要功能</h2>
+                        <ul>
+                            <li>✅ 自動抓取今天的所有行事曆事件</li>
+                            <li>✅ 整合所有行事曆（包括共用日曆、家庭、朋友等）</li>
+                            <li>✅ 整理為簡潔訊息格式（主旨＋時間）</li>
+                            <li>✅ 自動傳送至 LINE 通知</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <p><strong>⏰ 自動化設定</strong></p>
+                        <p>系統會在每天 08:00 自動執行，推播今天的行事曆提醒，無需手動操作。</p>
+                        <p style="margin-top: 10px;"><strong>📌 支援多行事曆</strong></p>
+                        <p>不只抓取主要行事曆，還會包含您帳號有權限的所有日曆，包括共用日曆與 Google Classroom 行事曆。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
