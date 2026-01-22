@@ -131,6 +131,169 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        .footer-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .footer-title {
+            font-size: 22px;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tools-section {
+            margin-bottom: 30px;
+        }
+
+        .tools-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .tool-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-image {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f5f5f5;
+            padding: 5px;
+        }
+
+        .tool-name {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .tech-section {
+            margin-bottom: 30px;
+        }
+
+        .tech-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .tech-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .tech-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .tech-link:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .tech-link:active {
+            transform: translateY(0);
+        }
+
+        .contact-section {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .contact-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .contact-email {
+            font-size: 16px;
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .footer-section {
+                padding: 20px 15px;
+                margin-top: 30px;
+            }
+
+            .footer-title {
+                font-size: 20px;
+            }
+
+            .tools-title,
+            .tech-title,
+            .contact-title {
+                font-size: 16px;
+            }
+
+            .tool-image {
+                width: 50px;
+                height: 50px;
+            }
+
+            .tool-name {
+                font-size: 11px;
+            }
+
+            .tech-description {
+                font-size: 14px;
+            }
+
+            .tech-link {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            .contact-email {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -180,6 +343,60 @@
                 </div>
                 <div class="arrow">→</div>
             </a>
+        </div>
+
+        <div class="footer-section">
+            <div class="footer-title">關於本專案</div>
+            
+            <div class="tools-section">
+                <div class="tools-title">使用工具</div>
+                <div class="tools-grid">
+                    <div class="tool-item">
+                        <img src="tool images/apps-script.webp" alt="Google Apps Script" class="tool-image">
+                        <div class="tool-name">Apps Script</div>
+                    </div>
+                    <div class="tool-item">
+                        <img src="tool images/google sheet.png" alt="Google Sheets" class="tool-image">
+                        <div class="tool-name">Google Sheets</div>
+                    </div>
+                    <div class="tool-item">
+                        <img src="tool images/line message.webp" alt="LINE" class="tool-image">
+                        <div class="tool-name">LINE</div>
+                    </div>
+                    <div class="tool-item">
+                        <img src="tool images/n8n.png" alt="n8n" class="tool-image">
+                        <div class="tool-name">n8n</div>
+                    </div>
+                    <div class="tool-item">
+                        <img src="tool images/Zeabur.png" alt="Zeabur" class="tool-image">
+                        <div class="tool-name">Zeabur</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-section">
+                <div class="tech-title">技術文章說明</div>
+                <div class="tech-description">
+                    本專案使用 Google Apps Script、n8n 等工具，結合 LINE Message API 與 Google 服務，<br>
+                    打造自動化的生活助手。詳細技術實作與開發心得，歡迎參考相關技術文章。
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="https://ithelp.ithome.com.tw/articles/10398569" target="_blank" class="tech-link">
+                        📖信用卡分析機器人
+                    </a>
+                    <a href="https://ithelp.ithome.com.tw/articles/10373090" target="_blank" class="tech-link">
+                        📖每日行事曆管家
+                    </a>
+                    <a href="https://ithelp.ithome.com.tw/articles/10371295" target="_blank" class="tech-link">
+                        📖年度行事曆管理
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <div class="contact-title">合作來信</div>
+                <a href="mailto:hungminliu@gmail.com" class="contact-email">hungminliu@gmail.com</a>
+            </div>
         </div>
     </div>
 </body>
