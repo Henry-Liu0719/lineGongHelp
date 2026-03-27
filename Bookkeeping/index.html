@@ -167,24 +167,39 @@
 
         .line-info {
             background: #f0f4ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 20px;
             border-left: 4px solid #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .line-info p {
-            margin-bottom: 8px;
+            margin-bottom: 0;
+        }
+
+        .line-label {
+            color: #4b5f9d;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .line-id {
             font-family: 'Courier New', monospace;
             background: white;
-            padding: 8px 12px;
+            padding: 10px 14px;
             border-radius: 6px;
-            display: inline-block;
-            margin: 5px 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
             font-weight: bold;
+            font-size: 17px;
+            letter-spacing: 0.3px;
             color: #667eea;
             cursor: pointer;
             transition: all 0.3s;
@@ -198,6 +213,14 @@
 
         .line-id:active {
             transform: scale(0.95);
+        }
+
+        .line-add-btn {
+            display: inline-block;
+            line-height: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
         }
 
         .toast {
@@ -389,11 +412,16 @@
 
             .line-info {
                 padding: 12px;
+                gap: 8px;
+            }
+
+            .line-label {
+                font-size: 13px;
             }
 
             .line-id {
                 padding: 6px 10px;
-                font-size: 13px;
+                font-size: 14px;
             }
 
             .feature-section {
@@ -527,12 +555,14 @@
                             <h2>✨ 完整記帳體驗</h2>
                             <p style="margin-top: 10px;">「小貢幫記帳」追求最快速直覺的記帳體驗。</p>
                             <p>用最少的時間紀錄每一筆支出</p>
-                            <div class="line-info" style="margin-top: 20px;">
-                                <p><strong>LINE 官方 ID：</strong></p>
-                                <div class="line-id">@862onhmi</div>
-                                <p style="margin-top: 10px;"><strong>加入連結：</strong></p>
-                                <a href="https://lin.ee/AznV1L7" target="_blank">https://lin.ee/AznV1L7</a>
+                            <div class="line-info">
+                                <span class="line-label"><strong>LINE 官方 ID：</strong></span>
+                                <div class="line-id">@984oxcws</div>
                             </div>
+                            <a class="line-add-btn" href="https://lin.ee/X1XPl22" style="margin-top: 18px; display: inline-block;">
+                                <img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36" border="0">
+                            </a>
+                            
                         </div>
                     </div>
                 </div>
